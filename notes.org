@@ -1,0 +1,25 @@
+*  Commands
+** List connections
+   - netstat -a
+** Scan network (nmap)
+   - nmap -sS <target>
+     * uses only "SYN" from the 3-way handshake
+   - nmap -sU <target>
+     * scans UDP
+   - nmap -sV <target>
+     * version info
+   - nmap -pXX,XXX,XX-XX
+     * define ports
+   - nmap --script banner
+     * show info from ports
+*** Scripts (nmap)
+    nmap --script <script_name>
+**** banner
+     display info from ports found
+**** vuln
+     display std vulnerabilities (CVE)
+
+* Files
+** ip_forward (change to 1 to allow forwarding)
+   - /proc/sys/net/ipv4/ip_forward
+   - eg: echo 1 > /proc/sys/net/ipv4/ip_forward

@@ -1,0 +1,146 @@
+1) Usei o $ arp -a | grep '10.0.0.102' e obtive o macaddress e8:b1:fc:80:fd:e0
+
+2) Com o comando $ fping -g 10.0.0.0/24 2>/dev/null | grep 'alive' obtive o seguinte resultado:
+    10.0.0.1 is alive
+    10.0.0.100 is alive
+    10.0.0.101 is alive
+    10.0.0.102 is alive
+    10.0.0.103 is alive
+    10.0.0.105 is alive
+    10.0.0.129 is alive
+    10.0.0.129 is alive
+    10.0.0.104 is alive
+    10.0.0.10 is alive
+
+3) Utilizando o comando $ ping -c 3 10.0.0.102 pode-se perceber o valor do ttl do host sendo 64, ou seja, o host é Linux
+
+4) Utilizando o $ netstat -s obetive:
+
+    Ip:
+        Forwarding: 2
+        411758 total packets received
+        4 with invalid addresses
+        0 forwarded
+        0 incoming packets discarded
+        411648 incoming packets delivered
+        250298 requests sent out
+        24 outgoing packets dropped
+        248 dropped because of missing route
+    Icmp:
+        8212 ICMP messages received
+        1861 input ICMP message failed
+        ICMP input histogram:
+            destination unreachable: 8106
+            timeout in transit: 18
+            redirects: 7
+            echo requests: 19
+            echo replies: 62
+        8304 ICMP messages sent
+        0 ICMP messages failed
+        ICMP output histogram:
+            destination unreachable: 5146
+            echo requests: 3151
+            echo replies: 7
+    IcmpMsg:
+            InType0: 62
+            InType3: 8106
+            InType5: 7
+            InType8: 19
+            InType11: 18
+            OutType0: 7
+            OutType3: 5146
+            OutType8: 3151
+    Tcp:
+        19612 active connection openings
+        9 passive connection openings
+        15473 failed connection attempts
+        76 connection resets received
+        1 connections established
+        398501 segments received
+        230568 segments sent out
+        40 segments retransmitted
+        2 bad segments received
+        2723 resets sent
+    Udp:
+        5123 packets received
+        295 packets to unknown port received
+        0 packet receive errors
+        11600 packets sent
+        0 receive buffer errors
+        0 send buffer errors
+        IgnoredMulti: 313
+    UdpLite:
+    TcpExt:
+        148 TCP sockets finished time wait in fast timer
+        1 packetes rejected in established connections because of timestamp
+        417 delayed acks sent
+        Quick ack mode was activated 185 times
+        124728 packets directly queued to recvmsg prequeue
+        1768955 bytes directly in process context from backlog
+        TCPDirectCopyFromPrequeue: 160074888
+        TCPPrequeueDropped: 64
+        243553 packet headers predicted
+        111232 packet headers predicted and directly queued to user
+        4329 acknowledgments not containing data payload received
+        707 predicted acknowledgments
+        TCPSackRecovery: 3
+        Detected reordering 6 times using SACK
+        1 congestion windows fully recovered without slow start
+        1 congestion windows recovered without slow start after partial ack
+        3 fast retransmits
+        TCPTimeouts: 21
+        TCPLossProbes: 15
+        TCPLossProbeRecovery: 1
+        TCPDSACKOldSent: 185
+        TCPDSACKRecv: 9
+        3512 connections reset due to unexpected data
+        3 connections reset due to early user close
+        24 connections aborted due to timeout
+        9 times unable to send RST due to no memory
+        TCPDSACKIgnoredNoUndo: 3
+        TCPSackShiftFallback: 12
+        IPReversePathFilter: 2
+        TCPRcvCoalesce: 43503
+        TCPOFOQueue: 13224
+        TCPChallengeACK: 2
+        TCPSYNChallenge: 2
+        TCPSynRetrans: 25
+        TCPOrigDataSent: 3345
+        TCPKeepAlive: 988
+    IpExt:
+        InMcastPkts: 1456
+        OutMcastPkts: 379
+        InBcastPkts: 327
+        OutBcastPkts: 143
+        InOctets: 560839482
+        OutOctets: 14908159
+        InMcastOctets: 311054
+        OutMcastOctets: 32046
+        InBcastOctets: 50909
+        OutBcastOctets: 13080
+        InNoECTPkts: 411747
+        InECT0Pkts: 11
+
+5) Utilizando o $ netstat -at obtive:
+    Active Internet connections (servers and established)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State
+    tcp        0      0 localhost:mysql         0.0.0.0:*               LISTEN
+    tcp        0      0 0.0.0.0:hostmon         0.0.0.0:*               LISTEN
+    tcp        0      0 localhost:ipp           0.0.0.0:*               LISTEN
+    tcp        0      0 localhost:postgresql    0.0.0.0:*               LISTEN
+    tcp        0      0 0.0.0.0:smtp            0.0.0.0:*               LISTEN
+    tcp        0      0 0.0.0.0:902             0.0.0.0:*               LISTEN
+    tcp       32      0 DryDryRuins:58472       10.0.0.102:netbios-ssn  ESTABLISHED
+    tcp        1      0 192.168.42.16:52178     216.58.202.170:https    CLOSE_WAIT
+    tcp6       0      0 [::]:hostmon            [::]:*                  LISTEN
+    tcp6       0      0 ip6-localhost:ipp       [::]:*                  LISTEN
+    tcp6       0      0 [::]:smtp               [::]:*                  LISTEN
+    tcp6       0      0 [::]:902                [::]:*                  LISTEN
+
+6) a. não utilizei nenhum filtro
+   b. utilizei o filtro ip.host == <ip da minha maquina>
+   c. utilizei o filtro ip.dst == <ip da minha maquina>
+   d. utilizei o filtro ip.addr == 10.0.0.102
+   e. utilizei o filtro ftp (não obtive resultado)
+
+7) Já que o filtro de FTP não gerou resultado, publiquei o arquivo utilizando o filtro ip.host == <ip da minha maquina> (item b do anterior).
